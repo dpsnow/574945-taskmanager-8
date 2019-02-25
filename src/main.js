@@ -2,19 +2,19 @@
 
 (function () {
   const COUNT_CARD = 7;
-  const containerForFilters = document.querySelector('.main__filter');
-  const containerForCards = document.querySelector('.board__tasks');
+  const containerForFilters = document.querySelector(`.main__filter`);
+  const containerForCards = document.querySelector(`.board__tasks`);
   const parser = new DOMParser();
   const listFilters = [
-    {id: 'all', count: getRandomInt(0, 255), isChecked: true},
-    {id: 'overdue', count: getRandomInt(0, 255)},
-    {id: 'today', count: getRandomInt(0, 255)},
-    {id: 'favorites', count: getRandomInt(0, 255)},
-    {id: 'repeating', count: getRandomInt(0, 255)},
-    {id: 'tags', count: getRandomInt(0, 255)},
-    {id: 'archive', count: getRandomInt(0, 255)},
+    {id: `all`, count: getRandomInt(0, 255), isChecked: true},
+    {id: `overdue`, count: getRandomInt(0, 255)},
+    {id: `today`, count: getRandomInt(0, 255)},
+    {id: `favorites`, count: getRandomInt(0, 255)},
+    {id: `repeating`, count: getRandomInt(0, 255)},
+    {id: `tags`, count: getRandomInt(0, 255)},
+    {id: `archive`, count: getRandomInt(0, 255)},
   ];
-  const listColorBarCard = ['yellow', 'pink', 'blue'];
+  const listColorBarCard = [`yellow`, `pink`, `blue`];
 
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -38,8 +38,8 @@
         id="filter__${id}"
         class="filter__input visually-hidden"
         name="filter"
-        ${count ? '' : 'disabled'}
-        ${isChecked === true ? 'checked' : ''} />
+        ${count ? `` : `disabled`}
+        ${isChecked === true ? `checked` : ``} />
       <label for="filter__${id}" class="filter__label">
         ${id.toUpperCase()}
         <span class="filter__${id}-count">${count}</span>
@@ -48,7 +48,7 @@
 
   const getCardElement = (colorBarCard, isDeadline = false) => {
     return `
-    <article class="card card--${colorBarCard} ${isDeadline ? 'card--deadline' : '' }">
+    <article class="card card--${colorBarCard} ${isDeadline ? `card--deadline` : `` }">
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__control">
@@ -198,14 +198,14 @@
   };
 
   const insertElementFromHtml = (html, container) => {
-    const element = parser.parseFromString(html, 'text/html');
+    const element = parser.parseFromString(html, `text/html`);
     const cardChildren = element.body.childNodes;
     cardChildren.forEach((childNode) => container.appendChild(childNode));
   };
 
   const renderCards = (count) => {
     const fragment = document.createDocumentFragment();
-    containerForCards.innerHTML = '';
+    containerForCards.innerHTML = ``;
     for (let index = 0; index < count; index++) {
       const cardHtml = getCardElement(getRandomValueArray(listColorBarCard), !!Math.round(Math.random()));
       insertElementFromHtml(cardHtml, fragment);
@@ -225,8 +225,8 @@
   renderFilters(listFilters);
   renderCards(COUNT_CARD);
 
-  containerForFilters.addEventListener('click', (evt) => {
-    if (evt.target.nodeName === 'INPUT') {
+  containerForFilters.addEventListener(`click`, (evt) => {
+    if (evt.target.nodeName === `INPUT`) {
       renderCards(getRandomInt(1, COUNT_CARD));
     }
   });
