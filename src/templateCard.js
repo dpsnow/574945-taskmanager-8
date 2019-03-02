@@ -1,4 +1,4 @@
-export default function getCardElement(colorBarCard, isDeadline = false) {
+function getCardElement(colorBarCard, isDeadline = false) {
   return `
   <article class="card card--${colorBarCard} ${isDeadline ? `card--deadline` : `` }">
     <form class="card__form" method="get">
@@ -148,3 +148,4 @@ export default function getCardElement(colorBarCard, isDeadline = false) {
     </form>
   </article>`;
 }
+export {getCardElement};

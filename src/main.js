@@ -1,7 +1,7 @@
 import {getFillterHtml} from './templateFilter.js';
 import {getCardElement} from './templateCard.js';
 import {getRandomInt, getRandomValueArray, insertElementFromHtml} from './utils.js';
-import {listFilters, listColorBarCard} from './data';
+import {listFilters, listColorBarCard} from './data.js';
 
 const COUNT_CARD = 7;
 const containerForFilters = document.querySelector(`.main__filter`);

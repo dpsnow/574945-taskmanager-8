@@ -1,4 +1,4 @@
-import {getRandomInt} from '/utils.js';
+import {getRandomInt} from './utils.js';
 
 const listFilters = [
   {id: `all`, count: getRandomInt(0, 255), isChecked: true},

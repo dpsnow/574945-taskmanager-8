@@ -1,4 +1,4 @@
-export default function getFillterHtml(id, count = 0, isChecked = false) {
+function getFillterHtml(id, count = 0, isChecked = false) {
   return `<input
       type="radio"
       id="filter__${id}"
@@ -11,3 +11,4 @@ export default function getFillterHtml(id, count = 0, isChecked = false) {
       <span class="filter__${id}-count">${count}</span>
     </label> `;
 }
+export {getFillterHtml};
