@@ -1,19 +1,21 @@
-import {getFillterHtml} from './templateFilter.js';
-import {getCardElement} from './templateCard.js';
-import {getRandomInt, getRandomValueArray, insertElementFromHtml} from './utils.js';
-import {listFilters, listColorBarCard} from './data.js';
+import {getFillterHtml} from './template-filter.js';
+import {getTaskElement} from './template-card.js';
+import {getRandomInt, insertElementFromHtml} from './utils.js';
+import {listFilters, getTask} from './data.js';
 
 const COUNT_CARD = 7;
 const containerForFilters = document.querySelector(`.main__filter`);
 const containerForCards = document.querySelector(`.board__tasks`);
 
-const renderCards = (count) => {
-  const fragment = document.createDocumentFragment();
+const renderTasks = (count) => {
   containerForCards.innerHTML = ``;
-  for (let index = 0; index < count; index++) {
-    const cardHtml = getCardElement(getRandomValueArray(listColorBarCard), !!Math.round(Math.random()));
+  const fragment = document.createDocumentFragment();
+  const tasks = new Array(count).fill(``).map(getTask);
+
+  tasks.forEach((task) => {
+    const cardHtml = getTaskElement(task);
     insertElementFromHtml(cardHtml, fragment);
-  }
+  });
   containerForCards.appendChild(fragment);
 };
 
@@ -27,10 +29,10 @@ const renderFilters = (arrayFilters) => {
 };
 
 renderFilters(listFilters);
-renderCards(COUNT_CARD);
+renderTasks(COUNT_CARD);
 
 containerForFilters.addEventListener(`click`, (evt) => {
   if (evt.target.nodeName === `INPUT`) {
-    renderCards(getRandomInt(1, COUNT_CARD));
+    renderTasks(getRandomInt(1, COUNT_CARD));
   }
 });
