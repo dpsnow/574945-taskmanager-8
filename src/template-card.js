@@ -87,7 +87,7 @@ function getTaskElement(task) {
             </div>
           </div>
 
-          <label class="card__img-wrap">
+          <label class="card__img-wrap${task.picture ? `` : ` card__img-wrap--empty`}">
             <input type="file" class="card__img-input visually-hidden" name="img" />
             ${task.picture ? `<img src="${task.picture}" alt="task picture" class="card__img"/>` : ``}
           </label>
