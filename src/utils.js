@@ -8,10 +8,10 @@ const getRandomValueArray = (array) => {
   return array[getRandomInt(0, array.length)];
 };
 
-const insertElementFromHtml = (html, container) => {
+const createElement = (html) => {
   const element = parser.parseFromString(html, `text/html`);
-  const cardChildren = element.body.childNodes;
-  cardChildren.forEach((childNode) => container.appendChild(childNode));
+  const nodes = element.body.childNodes;
+  return nodes;
 };
 
-export {getRandomInt, getRandomValueArray, insertElementFromHtml};
+export {getRandomInt, getRandomValueArray, createElement};
