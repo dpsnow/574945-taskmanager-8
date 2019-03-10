@@ -7,7 +7,7 @@ const getRandomInt = (min, max) => {
 };
 
 const getRandomValueFromArray = (array) => {
-  return array[getRandomInt(0, array.length - 1)];
+  return array[getRandomInt(0, array.length)];
 };
 
 const getRandomArray = (array, maxQty, minQty = 0) => {
