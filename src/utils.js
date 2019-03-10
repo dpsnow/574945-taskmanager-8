@@ -1,11 +1,17 @@
 const parser = new DOMParser();
 
+const getRandomBoolean = () => !!(Math.random() > 0.5);
+
 const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-const getRandomValueArray = (array) => {
+const getRandomValueFromArray = (array) => {
   return array[getRandomInt(0, array.length)];
+};
+
+const getRandomArray = (array, maxQty, minQty = 0) => {
+  return new Array(getRandomInt(minQty, maxQty)).fill(``).map(() => getRandomValueFromArray(array));
 };
 
 const createElement = (html) => {
@@ -14,4 +20,4 @@ const createElement = (html) => {
   return nodes;
 };
 
-export {getRandomInt, getRandomValueArray, createElement};
+export {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean, createElement};

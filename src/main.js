@@ -5,34 +5,32 @@ import {listFilters, getTask} from './data.js';
 import {Task} from './task.js';
 import {TaskEdit} from './task-edit.js';
 
-const COUNT_CARD = 7;
+const QTY_CARD = 7;
 const containerForFilters = document.querySelector(`.main__filter`);
 const containerForCards = document.querySelector(`.board__tasks`);
 
-const renderTasks = (count) => {
+const renderTasks = (qty) => {
   containerForCards.innerHTML = ``;
   const fragment = document.createDocumentFragment();
-  const tasks = new Array(count).fill(``).map(getTask);
+  const tasks = new Array(qty).fill(``).map(getTask);
 
   tasks.forEach((task) => {
     const taskHtml = new Task(task);
     const editTaskHtml = new TaskEdit(task);
-    fragment.appendChild(taskHtml.render());
-    // console.log(cardHtml);
 
     taskHtml.onEdit = () => {
-      console.log('onEdit');
       editTaskHtml.render();
       containerForCards.replaceChild(editTaskHtml.element, taskHtml.element);
       taskHtml.unrender();
     };
 
     editTaskHtml.onSubmit = () => {
-      console.log('onSubmit');
       taskHtml.render();
       containerForCards.replaceChild(taskHtml.element, editTaskHtml.element);
       editTaskHtml.unrender();
     };
+
+    fragment.appendChild(taskHtml.render());
   });
   containerForCards.appendChild(fragment);
 };
@@ -48,10 +46,10 @@ const renderFilters = (arrayFilters) => {
 };
 
 renderFilters(listFilters);
-renderTasks(COUNT_CARD);
+renderTasks(QTY_CARD);
 
 containerForFilters.addEventListener(`click`, (evt) => {
   if (evt.target.nodeName === `INPUT`) {
-    renderTasks(getRandomInt(1, COUNT_CARD));
+    renderTasks(getRandomInt(1, QTY_CARD));
   }
 });

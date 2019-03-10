@@ -1,6 +1,5 @@
 import {createElement} from './utils.js';
 
-// TODO: зачем создавать такую же карточку
 class TaskEdit {
   constructor(data) {
     this._title = data.title;
@@ -10,16 +9,6 @@ class TaskEdit {
     this._dueDate = data.dueDate;
     this._repeatingDays = data.repeatingDays;
     this._isFavorite = data.isFavorite;
-    this._isDone = data.isDone;
-
-    this._element = null;
-    this._onSubmit = null;
-
-    // не понятно
-    this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
-    this._state = {
-      isEdit: false
-    };
   }
 
   _isRepeated() {
@@ -30,9 +19,7 @@ class TaskEdit {
     this._onSubmit = fn;
   }
 
-  // использовать функцию которую передаем из main
   _onSubmitButtonClick(evt) {
-    // console.log('_onSubmitButtonClick');
     evt.preventDefault();
     typeof this._onSubmit === `function` && this._onSubmit();
   }
@@ -70,15 +57,15 @@ class TaskEdit {
               <div class="card__details">
                 <div class="card__dates">
                   <button class="card__date-deadline-toggle" type="button">
-                    date: <span class="card__date-status">no</span>
+                    date: <span class="card__date-status">${this._dueDate ? `yes` : `no`}</span>
                   </button>
 
-                  <fieldset class="card__date-deadline" disabled>
+                  <fieldset class="card__date-deadline" ${this._dueDate ? `` : `disabled`}>
                     <label class="card__input-deadline-wrap">
-                      <input class="card__date" type="text" placeholder="23 September" name="date" />
+                      <input class="card__date" type="text" placeholder="${new Date(this._dueDate).toLocaleDateString(`en-GB`, {day: `numeric`, month: `long`})}" name="date" />
                     </label>
                     <label class="card__input-deadline-wrap">
-                      <input class="card__time" type="text" placeholder="11:15 PM" name="time" />
+                      <input class="card__time" type="text" placeholder="${new Date(this._dueDate).toLocaleString(`en-GB`, {hour: `numeric`, minute: `numeric`, hour12: true})}" name="time" />
                     </label>
                   </fieldset>
 
@@ -128,19 +115,19 @@ class TaskEdit {
                 <h3 class="card__colors-title">Color</h3>
                 <div class="card__colors-wrap">
                   <input type="radio" id="color-black-3" class="card__color-input card__color-input--black visually-hidden"
-                    name="color" value="black" />
+                    name="color" value="black" ${this._color === `black` ? `checked` : ``}/>
                   <label for="color-black-3" class="card__color card__color--black">black</label>
                   <input type="radio" id="color-yellow-3" class="card__color-input card__color-input--yellow visually-hidden"
-                    name="color" value="yellow" />
+                    name="color" value="yellow" ${this._color === `yellow` ? `checked` : ``}/>
                   <label for="color-yellow-3" class="card__color card__color--yellow">yellow</label>
                   <input type="radio" id="color-blue-3" class="card__color-input card__color-input--blue visually-hidden"
-                    name="color" value="blue" />
+                    name="color" value="blue" ${this._color === `blue` ? `checked` : ``}/>
                   <label for="color-blue-3" class="card__color card__color--blue">blue</label>
                   <input type="radio" id="color-green-3" class="card__color-input card__color-input--green visually-hidden"
-                    name="color" value="green" checked />
+                    name="color" value="green" ${this._color === `green` ? `checked` : ``}/>
                   <label for="color-green-3" class="card__color card__color--green">green</label>
                   <input type="radio" id="color-pink-3" class="card__color-input card__color-input--pink visually-hidden"
-                    name="color" value="pink" />
+                    name="color" value="pink" ${this._color === `pink` ? `checked` : ``}/>
                   <label for="color-pink-3" class="card__color card__color--pink">pink</label>
                 </div>
               </div>
@@ -172,11 +159,11 @@ class TaskEdit {
   }
 
   bind() {
-    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
   }
 
   unbind() {
-    this._element.querySelector(`.card__form`).removeEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.card__form`).removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
   }
 }
 

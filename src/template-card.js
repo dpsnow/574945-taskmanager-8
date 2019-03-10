@@ -22,7 +22,7 @@ const makeHashtag = (hashtag) => {
 
 function getTaskElement(task) {
   return `
-  <article class="card card--${task.color} ${Object.values(task.repeatingDays).includes(true) ? `card--repeat` : ``}">
+  <article class="card card--${task.color} ${task.isRepeating() ? `card--repeat` : ``}">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__control">
@@ -53,23 +53,23 @@ function getTaskElement(task) {
           <div class="card__details">
             <div class="card__dates">
               <button class="card__date-deadline-toggle" type="button">
-                date: <span class="card__date-status">no</span>
+                date: <span class="card__date-status">${task.dueDate ? `yes` : `no`}</span>
               </button>
 
-              <fieldset class="card__date-deadline" disabled>
+              <fieldset class="card__date-deadline" ${task.dueDate ? `` : `disabled`}>
                 <label class="card__input-deadline-wrap">
-                  <input class="card__date" type="text" placeholder="23 September" name="date" />
+                  <input class="card__date" type="text" placeholder="${new Date(task.dueDate).toLocaleDateString(`en-GB`, {day: `numeric`, month: `long`})}" name="date" />
                 </label>
                 <label class="card__input-deadline-wrap">
-                  <input class="card__time" type="text" placeholder="11:15 PM" name="time" />
+                  <input class="card__time" type="text" placeholder="${new Date(task.dueDate).toLocaleString(`en-GB`, {hour: `numeric`, minute: `numeric`, hour12: true})}" name="time" />
                 </label>
               </fieldset>
 
               <button class="card__repeat-toggle" type="button">
-                repeat:<span class="card__repeat-status">${Object.values(task.repeatingDays).includes(true) ? `yes` : `no`}</span>
+                repeat:<span class="card__repeat-status">${task.isRepeating() ? `yes` : `no`}</span>
               </button>
 
-              <fieldset class="card__repeat-days" ${Object.values(task.repeatingDays).includes(true) ? `` : `disabled`}>
+              <fieldset class="card__repeat-days" ${task.isRepeating() ? `` : `disabled`}>
                 <div class="card__repeat-days-inner">
                   ${Object.entries(task.repeatingDays).map(makeRepeatingDay).join(``)}
                 </div>
