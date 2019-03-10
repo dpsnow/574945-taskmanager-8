@@ -1,4 +1,4 @@
-import {getRandomInt} from './utils.js';
+import {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean} from './utils.js';
 
 const listFilters = [
   {id: `all`, count: getRandomInt(0, 255), isChecked: true},
@@ -9,6 +9,52 @@ const listFilters = [
   {id: `tags`, count: getRandomInt(0, 255)},
   {id: `archive`, count: getRandomInt(0, 255)},
 ];
-const listColorBarCard = [`yellow`, `pink`, `blue`];
 
-export {listFilters, listColorBarCard};
+const getTask = () => ({
+  title: getRandomValueFromArray([
+    `Изучить теорию`,
+    `Сделать домашку`,
+    `Пройти интенсив на соточку`
+  ]),
+
+  dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+
+  tags: new Set(getRandomArray([
+    `homework`,
+    `theory`,
+    `practice`,
+    `intensive`,
+    `keks`,
+    `js2`,
+    `hard`,
+    `i❤frontend`], 4)),
+
+  color: getRandomValueFromArray([
+    `black`,
+    `yellow`,
+    `blue`,
+    `green`,
+    `pink`
+  ]),
+
+  picture: getRandomBoolean() ? `//picsum.photos/100/100?r=${Math.random()}` : ``,
+
+  repeatingDays: {
+    'mo': getRandomBoolean(),
+    'tu': getRandomBoolean(),
+    'we': getRandomBoolean(),
+    'th': getRandomBoolean(),
+    'fr': getRandomBoolean(),
+    'sa': getRandomBoolean(),
+    'su': getRandomBoolean(),
+  },
+
+  isRepeating() {
+    return Object.values(this.repeatingDays).includes(true);
+  },
+
+  isFavorite: getRandomBoolean(),
+  isDone: getRandomBoolean(),
+});
+
+export {listFilters, getTask};
