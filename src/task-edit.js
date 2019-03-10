@@ -21,7 +21,9 @@ class TaskEdit {
 
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
-    typeof this._onSubmit === `function` && this._onSubmit();
+    if (typeof this._onSubmit === `function`) {
+      this._onSubmit();
+    }
   }
 
   get template() {
@@ -75,29 +77,29 @@ class TaskEdit {
 
                   <fieldset class="card__repeat-days" ${this._isRepeated() ? `` : `disabled`}>
                     <div class="card__repeat-days-inner">
-                    ${Object.entries(this._repeatingDays).map((day) => {
-                      return `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${day[0]}-3" name="repeat"
+  ${Object.entries(this._repeatingDays).map((day) => {
+    return `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${day[0]}-3" name="repeat"
                       value="${day[0]}" ${day[1] ? `checked` : ``}/>
                       <label class="card__repeat-day" for="repeat-${day[0]}-3">${day[0]}</label>`.trim();
-                    }).join(``)}
+  }).join(``)}
                     </div>
                   </fieldset>
                 </div>
 
                 <div class="card__hashtag">
                   <div class="card__hashtag-list">
-                  ${Array.from(this._tags).map((hashtag) => {
-                    return `
-                          <span class="card__hashtag-inner">
-                            <input type="hidden" name="hashtag" value="${hashtag}" class="card__hashtag-hidden-input" />
-                            <button type="button" class="card__hashtag-name">
-                              #${hashtag}
-                            </button>
-                            <button type="button" class="card__hashtag-delete">
-                              delete
-                            </button>
-                          </span>`.trim();
-                    }).join(``)}
+  ${Array.from(this._tags).map((hashtag) => {
+    return `
+          <span class="card__hashtag-inner">
+            <input type="hidden" name="hashtag" value="${hashtag}" class="card__hashtag-hidden-input" />
+            <button type="button" class="card__hashtag-name">
+              #${hashtag}
+            </button>
+            <button type="button" class="card__hashtag-delete">
+              delete
+            </button>
+          </span>`.trim();
+  }).join(``)}
                   </div>
 
                   <label>
