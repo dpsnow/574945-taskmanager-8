@@ -53,15 +53,15 @@ function getTaskElement(task) {
           <div class="card__details">
             <div class="card__dates">
               <button class="card__date-deadline-toggle" type="button">
-                date: <span class="card__date-status">no</span>
+                date: <span class="card__date-status">${task.dueDate ? `yes` : `no`}</span>
               </button>
 
-              <fieldset class="card__date-deadline" disabled>
+              <fieldset class="card__date-deadline" ${task.dueDate ? `` : `disabled`}>
                 <label class="card__input-deadline-wrap">
-                  <input class="card__date" type="text" placeholder="23 September" name="date" />
+                  <input class="card__date" type="text" placeholder="${new Date(task.dueDate).toLocaleDateString(`en-GB`, {day: `numeric`, month: `long`})}" name="date" />
                 </label>
                 <label class="card__input-deadline-wrap">
-                  <input class="card__time" type="text" placeholder="11:15 PM" name="time" />
+                  <input class="card__time" type="text" placeholder="${new Date(task.dueDate).toLocaleString(`en-GB`, {hour: `numeric`, minute: `numeric`, hour12: true})}" name="time" />
                 </label>
               </fieldset>
 

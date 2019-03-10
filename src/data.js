@@ -1,4 +1,4 @@
-import {getRandomInt, getRandomValueArray} from './utils.js';
+import {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean} from './utils.js';
 
 const listFilters = [
   {id: `all`, count: getRandomInt(0, 255), isChecked: true},
@@ -10,59 +10,49 @@ const listFilters = [
   {id: `archive`, count: getRandomInt(0, 255)},
 ];
 
-const hashtags = [
-  `homework`,
-  `theory`,
-  `practice`,
-  `intensive`,
-  `keks`,
-  `js2`,
-  `hard`,
-  `i<3frontend`,
-];
-
-const getHashtags = () => {
-  const randomTags = new Array(getRandomInt(0, 4)).fill(``).map(() => {
-    return getRandomValueArray(hashtags);
-  });
-  return randomTags;
-};
-
 const getTask = () => ({
-  title: [
+  title: getRandomValueFromArray([
     `Изучить теорию`,
     `Сделать домашку`,
     `Пройти интенсив на соточку`
-  ][Math.floor(Math.random() * 3)],
+  ]),
 
   dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
 
-  tags: new Set(getHashtags()),
+  tags: new Set(getRandomArray([
+    `homework`,
+    `theory`,
+    `practice`,
+    `intensive`,
+    `keks`,
+    `js2`,
+    `hard`,
+    `i❤frontend`], 4)),
 
-  color: [
+  color: getRandomValueFromArray([
     `black`,
     `yellow`,
     `blue`,
     `green`,
     `pink`
-  ][Math.floor(Math.random() * 5)],
+  ]),
 
   picture: (Math.round(Math.random())) ? `//picsum.photos/100/100?r=${Math.random()}` : ``,
 
   repeatingDays: {
-    'mo': !!Math.round(Math.random()),
-    'tu': !!Math.round(Math.random()),
-    'we': !!Math.round(Math.random()),
-    'th': !!Math.round(Math.random()),
-    'fr': !!Math.round(Math.random()),
-    'sa': !!Math.round(Math.random()),
-    'su': !!Math.round(Math.random()),
+    'mo': getRandomBoolean(),
+    'tu': getRandomBoolean(),
+    'we': getRandomBoolean(),
+    'th': getRandomBoolean(),
+    'fr': getRandomBoolean(),
+    'sa': getRandomBoolean(),
+    'su': getRandomBoolean(),
   },
 
   // isRepeating: Object.values(repeatingDays).includes(true),
-  isFavorite: !!Math.round(Math.random()),
 
-  isDone: !!Math.round(Math.random()),
+  isFavorite: getRandomBoolean(),
+  isDone: getRandomBoolean(),
 });
 
 export {listFilters, getTask};

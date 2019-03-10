@@ -1,11 +1,17 @@
 const parser = new DOMParser();
 
+const getRandomBoolean = () => !!(Math.random() > 0.5);
+
 const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-const getRandomValueArray = (array) => {
-  return array[getRandomInt(0, array.length)];
+const getRandomValueFromArray = (array) => {
+  return array[getRandomInt(0, array.length - 1)];
+};
+
+const getRandomArray = (array, maxQty, minQty = 0) => {
+  return new Array(getRandomInt(minQty, maxQty)).fill(``).map(() => getRandomValueFromArray(array));
 };
 
 const insertElementFromHtml = (html, container) => {
@@ -14,4 +20,4 @@ const insertElementFromHtml = (html, container) => {
   cardChildren.forEach((childNode) => container.appendChild(childNode));
 };
 
-export {getRandomInt, getRandomValueArray, insertElementFromHtml};
+export {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean, insertElementFromHtml};
