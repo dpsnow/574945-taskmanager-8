@@ -37,7 +37,7 @@ const getTask = () => ({
     `pink`
   ]),
 
-  picture: (Math.round(Math.random())) ? `//picsum.photos/100/100?r=${Math.random()}` : ``,
+  picture: getRandomBoolean() ? `//picsum.photos/100/100?r=${Math.random()}` : ``,
 
   repeatingDays: {
     'mo': getRandomBoolean(),
@@ -49,7 +49,9 @@ const getTask = () => ({
     'su': getRandomBoolean(),
   },
 
-  // isRepeating: Object.values(repeatingDays).includes(true),
+  isRepeating() {
+    return Object.values(this.repeatingDays).includes(true);
+  },
 
   isFavorite: getRandomBoolean(),
   isDone: getRandomBoolean(),

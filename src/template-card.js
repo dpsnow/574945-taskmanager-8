@@ -22,7 +22,7 @@ const makeHashtag = (hashtag) => {
 
 function getTaskElement(task) {
   return `
-  <article class="card card--${task.color} ${Object.values(task.repeatingDays).includes(true) ? `card--repeat` : ``}">
+  <article class="card card--${task.color} ${task.isRepeating() ? `card--repeat` : ``}">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__control">
@@ -66,10 +66,10 @@ function getTaskElement(task) {
               </fieldset>
 
               <button class="card__repeat-toggle" type="button">
-                repeat:<span class="card__repeat-status">${Object.values(task.repeatingDays).includes(true) ? `yes` : `no`}</span>
+                repeat:<span class="card__repeat-status">${task.isRepeating() ? `yes` : `no`}</span>
               </button>
 
-              <fieldset class="card__repeat-days" ${Object.values(task.repeatingDays).includes(true) ? `` : `disabled`}>
+              <fieldset class="card__repeat-days" ${task.isRepeating() ? `` : `disabled`}>
                 <div class="card__repeat-days-inner">
                   ${Object.entries(task.repeatingDays).map(makeRepeatingDay).join(``)}
                 </div>
