@@ -49,10 +49,6 @@ const getTask = () => ({
     'su': getRandomBoolean(),
   },
 
-  // isRepeating() {
-  //   return Object.values(this.repeatingDays).includes(true);
-  // },
-
   isFavorite: getRandomBoolean(),
   isDone: getRandomBoolean(),
 });

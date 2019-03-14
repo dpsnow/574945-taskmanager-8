@@ -1,4 +1,4 @@
-import {createElement} from './utils.js';
+import {createElement, isFunction} from './utils.js';
 
 class Task {
   constructor(data) {
@@ -9,8 +9,7 @@ class Task {
     this._dueDate = data.dueDate;
     this._repeatingDays = data.repeatingDays;
     this._isFavorite = data.isFavorite;
-
-    // this._onEditButtonClick = this._onEditButtonClick.bind(this);
+    this._onEditButtonClick = this._onEditButtonClick.bind(this);
   }
 
   _isRepeated() {
@@ -22,7 +21,7 @@ class Task {
   }
 
   _onEditButtonClick() {
-    if (typeof this._onEdit === `function`) {
+    if (isFunction(this._onEdit)) {
       this._onEdit();
     }
   }
@@ -130,14 +129,12 @@ class Task {
     this._element = null;
   }
 
-  // можно ли заменить на addHandlers ?
   bind() {
-    this._element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._onEditButtonClick.bind(this));
+    this._element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._onEditButtonClick);
   }
 
-  // можно ли заменить на removeHandlers ?
   unbind() {
-    this._element.querySelector(`.card__btn--edit`).removeEventListener(`click`, this._onEditButtonClick.bind(this));
+    this._element.querySelector(`.card__btn--edit`).removeEventListener(`click`, this._onEditButtonClick);
   }
 }
 

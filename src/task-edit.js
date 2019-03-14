@@ -1,4 +1,4 @@
-import {createElement} from './utils.js';
+import {createElement, isFunction} from './utils.js';
 
 class TaskEdit {
   constructor(data) {
@@ -9,6 +9,8 @@ class TaskEdit {
     this._dueDate = data.dueDate;
     this._repeatingDays = data.repeatingDays;
     this._isFavorite = data.isFavorite;
+    this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
+    this._onResetBtnClick = this._onResetBtnClick.bind(this);
   }
 
   _isRepeated() {
@@ -21,9 +23,14 @@ class TaskEdit {
 
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
-    if (typeof this._onSubmit === `function`) {
+    if (isFunction(this._onSubmit)) {
       this._onSubmit();
     }
+  }
+
+  _onResetBtnClick(evt) {
+    evt.preventDefault();
+    this.unrender();
   }
 
   get template() {
@@ -161,11 +168,13 @@ class TaskEdit {
   }
 
   bind() {
-    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.card__delete`).addEventListener(`click`, this._onResetBtnClick);
   }
 
   unbind() {
-    this._element.querySelector(`.card__form`).removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+    this._element.querySelector(`.card__form`).removeEventListener(`submit`, this._onSubmitButtonClick);
+    this._element.querySelector(`.card__delete`).addEventListener(`click`, this._onResetBtnClick);
   }
 }
 

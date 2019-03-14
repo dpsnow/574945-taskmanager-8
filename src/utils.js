@@ -6,6 +6,10 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
+const isFunction = (value) => {
+  return typeof value === `function`;
+};
+
 const getRandomValueFromArray = (array) => {
   return array[getRandomInt(0, array.length)];
 };
@@ -20,4 +24,4 @@ const createElement = (html) => {
   return nodes;
 };
 
-export {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean, createElement};
+export {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean, createElement, isFunction};
