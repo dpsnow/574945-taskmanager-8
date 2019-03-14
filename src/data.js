@@ -17,7 +17,7 @@ const getTask = () => ({
     `Пройти интенсив на соточку`
   ]),
 
-  dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+  dueDate: getRandomBoolean() ? (Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000) : null,
 
   tags: new Set(getRandomArray([
     `homework`,
@@ -47,10 +47,6 @@ const getTask = () => ({
     'fr': getRandomBoolean(),
     'sa': getRandomBoolean(),
     'su': getRandomBoolean(),
-  },
-
-  isRepeating() {
-    return Object.values(this.repeatingDays).includes(true);
   },
 
   isFavorite: getRandomBoolean(),
