@@ -1,7 +1,9 @@
-import {createElement, isFunction} from './utils.js';
+import {isFunction} from './utils.js';
+import {Component} from './component.js';
 
-class Task {
+class Task extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._color = data.color;
     this._tags = data.tags;
@@ -113,27 +115,27 @@ class Task {
       </article>`.trim();
   }
 
-  get element() {
-    return this._element;
-  }
+  // get element() {
+  //   return this._element;
+  // }
 
-  render() {
-    this._element = createElement(this.template)[0];
-    this.bind();
-    return this._element;
-  }
+  // render() {
+  //   this._element = createElement(this.template)[0];
+  //   this.bind();
+  //   return this._element;
+  // }
 
-  unrender() {
-    this.unbind();
-    this._element.remove();
-    this._element = null;
-  }
+  // unrender() {
+  //   this.unbind();
+  //   this._element.remove();
+  //   this._element = null;
+  // }
 
-  bind() {
+  createListeners() {
     this._element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._onEditButtonClick);
   }
 
-  unbind() {
+  removeListeners() {
     this._element.querySelector(`.card__btn--edit`).removeEventListener(`click`, this._onEditButtonClick);
   }
 }
