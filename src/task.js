@@ -2,8 +2,9 @@ import {isFunction} from './utils.js';
 import {Component} from './component.js';
 
 class Task extends Component {
-  constructor(data) {
+  constructor(data, uniqueNumber) {
     super();
+    this._uniqueNumber = uniqueNumber;
     this._title = data.title;
     this._color = data.color;
     this._tags = data.tags;
@@ -12,6 +13,7 @@ class Task extends Component {
     this._repeatingDays = data.repeatingDays;
     this._isFavorite = data.isFavorite;
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
+    this._onChangeTitle = this._onChangeTitle.bind(this);
   }
 
   _isRepeated() {
@@ -25,6 +27,16 @@ class Task extends Component {
   _onEditButtonClick() {
     if (isFunction(this._onEdit)) {
       this._onEdit();
+    }
+  }
+
+  set onChangeTitle(fn) {
+    this._onChangeTitle = fn;
+  }
+
+  _onChangeTitle() {
+    if (isFunction(this._onChangeTitle)) {
+      this._onChangeTitle();
     }
   }
 
@@ -73,19 +85,6 @@ class Task extends Component {
                     </label>
                   </fieldset>
 
-                  <button class="card__repeat-toggle" type="button">
-                    repeat:<span class="card__repeat-status">${this._isRepeated() ? `yes` : `no`}</span>
-                  </button>
-
-                  <fieldset class="card__repeat-days" ${this._isRepeated() ? `` : `disabled`}>
-                    <div class="card__repeat-days-inner">
-  ${Object.entries(this._repeatingDays).map((day) => {
-    return `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${day[0]}-3" name="repeat"
-    value="${day[0]}" ${day[1] ? `checked` : ``}/>
-    <label class="card__repeat-day" for="repeat-${day[0]}-3">${day[0]}</label>`.trim();
-  }).join(``)}
-                    </div>
-                  </fieldset>
                 </div>
 
                 <div class="card__hashtag">
@@ -117,10 +116,20 @@ class Task extends Component {
 
   createListeners() {
     this._element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._onEditButtonClick);
+    this._element.querySelector(`.card__text`).addEventListener(`change`, this._onChangeTitle);
   }
 
   removeListeners() {
     this._element.querySelector(`.card__btn--edit`).removeEventListener(`click`, this._onEditButtonClick);
+    this._element.querySelector(`.card__text`).removeEventListener(`change`, this._onChangeTitle);
+  }
+
+  update(data) {
+    this._title = data.title;
+    this._tags = data.tags;
+    this._color = data.color;
+    this._repeatingDays = data.repeatingDays;
+    this._dueDate = data.dueDate;
   }
 }
 

@@ -8,15 +8,22 @@ import {TaskEdit} from './task-edit.js';
 const QTY_CARD = 7;
 const containerForFilters = document.querySelector(`.main__filter`);
 const containerForCards = document.querySelector(`.board__tasks`);
+let countCards = getRandomInt(0, 1500);
+
 
 const renderTasks = (qty) => {
   containerForCards.innerHTML = ``;
   const fragment = document.createDocumentFragment();
   const tasks = new Array(qty).fill(``).map(getTask);
 
+  // if (!uniqueNumbers.includes(uniqueNumber)) {
+  //   uniqueNumbers.push(uniqueNumber);
+  // }
+
   tasks.forEach((task) => {
-    const taskHtml = new Task(task);
-    const editTaskHtml = new TaskEdit(task);
+    ++countCards;
+    const taskHtml = new Task(task, countCards);
+    const editTaskHtml = new TaskEdit(task, countCards);
 
     taskHtml.onEdit = () => {
       editTaskHtml.render();
@@ -24,7 +31,22 @@ const renderTasks = (qty) => {
       taskHtml.unrender();
     };
 
-    editTaskHtml.onSubmit = () => {
+    taskHtml.onChangeTitle = (evt) => {
+      console.log(evt);
+      task.title = evt.target.value;
+      taskHtml.update(task);
+      editTaskHtml.update(task);
+    };
+
+    editTaskHtml.onSubmit = (newObject) => {
+      task.title = newObject.title;
+      task.tags = newObject.tags;
+      task.color = newObject.color;
+      task.repeatingDays = newObject.repeatingDays;
+      task.dueDate = newObject.dueDate;
+
+      taskHtml.update(task);
+
       taskHtml.render();
       containerForCards.replaceChild(taskHtml.element, editTaskHtml.element);
       editTaskHtml.unrender();
