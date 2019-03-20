@@ -1,5 +1,4 @@
 import {getFillterHtml} from './template-filter.js';
-// import {getTaskElement} from './template-card.js';
 import {getRandomInt, createElement} from './utils.js';
 import {listFilters, getTask} from './data.js';
 import {Task} from './task.js';
@@ -16,10 +15,6 @@ const renderTasks = (qty) => {
   const fragment = document.createDocumentFragment();
   const tasks = new Array(qty).fill(``).map(getTask);
 
-  // if (!uniqueNumbers.includes(uniqueNumber)) {
-  //   uniqueNumbers.push(uniqueNumber);
-  // }
-
   tasks.forEach((task) => {
     ++countCards;
     const taskHtml = new Task(task, countCards);
@@ -32,7 +27,6 @@ const renderTasks = (qty) => {
     };
 
     taskHtml.onChangeTitle = (evt) => {
-      console.log(evt);
       task.title = evt.target.value;
       taskHtml.update(task);
       editTaskHtml.update(task);

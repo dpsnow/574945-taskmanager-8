@@ -34,17 +34,12 @@ class TaskEdit extends Component {
     this._onSubmit = fn;
   }
 
-  // FIXME:
-  // _partialUpdate() {
-  //   this._element.innerHTML = this.template;
-  // }
-
   static createMapper(target) {
     return {
       hashtag: (value) => target.tags.add(value),
-      text: (value) => target.title = value,
-      color: (value) => target.color = value,
-      repeat: (value) => target.repeatingDays[value] = true,
+      text: (value) => (target.title = value),
+      color: (value) => (target.color = value),
+      repeat: (value) => (target.repeatingDays[value] = true),
       date: (value) => target.dueDate[value],
     };
   }
@@ -70,7 +65,10 @@ class TaskEdit extends Component {
 
     for (const pair of formData.entries()) {
       const [property, value] = pair;
-      taskEditMapper[property] && taskEditMapper[property](value);
+      if (taskEditMapper[property]) {
+        taskEditMapper[property](value);
+      }
+      // taskEditMapper[property] && taskEditMapper[property](value);
     }
     return entry;
   }
@@ -89,17 +87,12 @@ class TaskEdit extends Component {
   }
 
   _onChangeRepeated() {
-    this._state.isRepeated = !this._state.isRepeated;
-    this._element.classList.toggle(`card--repeat`);
     const repeatStatus = this._element.querySelector(`.card__repeat-status`);
     const repeatDays = this._element.querySelector(`.card__repeat-days`);
+    this._state.isRepeated = !this._state.isRepeated;
+    this._element.classList.toggle(`card--repeat`);
     repeatStatus.textContent = this._state.isRepeated ? `yes` : `no`;
     repeatDays.disabled = !this._state.isRepeated;
-
-    // FIXME:
-    // this.removeListeners();
-    // this._partialUpdate();
-    // this.createListeners();
   }
 
   _onChangeColor(evt) {
