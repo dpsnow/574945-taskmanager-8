@@ -4,6 +4,9 @@ import {listFilters, getTask} from './data.js';
 import {Task} from './task.js';
 import {TaskEdit} from './task-edit.js';
 
+import '../node_modules/flatpickr/dist/flatpickr.min.css';
+import '../node_modules/flatpickr/dist/themes/material_green.css';
+
 const QTY_CARD = 7;
 const containerForFilters = document.querySelector(`.main__filter`);
 const containerForCards = document.querySelector(`.board__tasks`);
@@ -33,12 +36,12 @@ const renderTasks = (qty) => {
     };
 
     editTaskHtml.onSubmit = (newObject) => {
+      // console.log('newObject', newObject);
       task.title = newObject.title;
       task.tags = newObject.tags;
       task.color = newObject.color;
       task.repeatingDays = newObject.repeatingDays;
       task.dueDate = newObject.dueDate;
-
       taskHtml.update(task);
 
       taskHtml.render();

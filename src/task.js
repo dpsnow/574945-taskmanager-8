@@ -1,5 +1,6 @@
 import {isFunction} from './utils.js';
 import {Component} from './component.js';
+import moment from 'moment';
 
 class Task extends Component {
   constructor(data, uniqueNumber) {
@@ -12,12 +13,29 @@ class Task extends Component {
     this._dueDate = data.dueDate;
     this._repeatingDays = data.repeatingDays;
     this._isFavorite = data.isFavorite;
+
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
     this._onChangeTitle = this._onChangeTitle.bind(this);
   }
 
-  _isRepeated() {
+  get _isRepeated() {
     return Object.values(this._repeatingDays).includes(true);
+  }
+
+  get _isDate() {
+    return this._dueDate ? true : false;
+  }
+
+  get _dayDueDate() {
+    return this._dueDate && moment(this._dueDate).format(`D MMMM`);
+  }
+
+  get _timeDueDate() {
+    return this._dueDate && moment(this._dueDate).format(`h:mm A`);
+  }
+
+  get _isDeadline() {
+    return (this._dueDate && new Date(this._dueDate).getDate() < new Date().getDate()) ? true : false;
   }
 
   set onEdit(fn) {
@@ -41,8 +59,9 @@ class Task extends Component {
   }
 
   get template() {
+    // console.log(this);
     return `
-      <article class="card card--${this._color} ${this._isRepeated() ? `card--repeat` : ``}">
+      <article class="card card--${this._color} ${this._isRepeated ? `card--repeat` : ``} ${this._isDeadline ? `card--deadline` : ``}">
         <form class="card__form" method="get">
           <div class="card__inner">
             <div class="card__control">
@@ -72,19 +91,14 @@ class Task extends Component {
             <div class="card__settings">
               <div class="card__details">
                 <div class="card__dates">
-                  <button class="card__date-deadline-toggle" type="button">
-                    date: <span class="card__date-status">${this._dueDate ? `yes` : `no`}</span>
-                  </button>
-
-                  <fieldset class="card__date-deadline" ${this._dueDate ? `` : `disabled`}>
+                  <fieldset class="card__date-deadline" ${this._isDate ? `` : `disabled`}>
                     <label class="card__input-deadline-wrap">
-                      <input class="card__date" type="text" placeholder="${new Date(this._dueDate).toLocaleDateString(`en-GB`, {day: `numeric`, month: `long`})}" name="date" />
+                      <input class="card__date" type="text" placeholder="${moment().format(`Do MMMM`)}" name="date" ${this._isDate ? `value="${this._dayDueDate}"` : ``} />
                     </label>
                     <label class="card__input-deadline-wrap">
-                      <input class="card__time" type="text" placeholder="${new Date(this._dueDate).toLocaleString(`en-GB`, {hour: `numeric`, minute: `numeric`, hour12: true})}" name="time" />
+                      <input class="card__time" type="text" placeholder="${moment().format(`h:mm A`)}" name="time" ${this._isDate ? `value="${this._timeDueDate}"` : ``}/>
                     </label>
                   </fieldset>
-
                 </div>
 
                 <div class="card__hashtag">
@@ -125,11 +139,13 @@ class Task extends Component {
   }
 
   update(data) {
+    // console.log('before', this);
     this._title = data.title;
     this._tags = data.tags;
     this._color = data.color;
     this._repeatingDays = data.repeatingDays;
     this._dueDate = data.dueDate;
+    // console.log('after', this);
   }
 }
 
