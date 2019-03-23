@@ -1,7 +1,6 @@
-import {isFunction} from './utils.js';
+import {isFunction, formatDate, updateTime} from './utils.js';
 import {Component} from './component.js';
 import flatpickr from 'flatpickr';
-import moment from 'moment';
 
 class TaskEdit extends Component {
   constructor(data, uniqueNumber) {
@@ -27,15 +26,15 @@ class TaskEdit extends Component {
   }
 
   get _isDate() {
-    return this._dueDate ? true : false;
+    return !!this._dueDate;
   }
 
   get _dayDueDate() {
-    return this._dueDate && moment(this._dueDate).format(`D MMMM`);
+    return this._dueDate && formatDate(this._dueDate, `D MMMM`);
   }
 
   get _timeDueDate() {
-    return this._dueDate && moment(this._dueDate).format(`h:mm A`);
+    return this._dueDate && formatDate(this._dueDate, `h:mm A`);
   }
 
   set onSubmit(fn) {
@@ -47,7 +46,7 @@ class TaskEdit extends Component {
     const dateDeadline = this._element.querySelector(`.card__date-deadline`);
 
     deadlineStatus.textContent = !this._isDate ? `yes` : `no`;
-    dateDeadline.disabled = dateDeadline.disabled ? false : true;
+    dateDeadline.disabled = !dateDeadline.disabled;
   }
 
   _onChangeRepeated() {
@@ -55,7 +54,7 @@ class TaskEdit extends Component {
     const repeatDays = this._element.querySelector(`.card__repeat-days`);
 
     repeatStatus.textContent = !this._isRepeated ? `yes` : `no`;
-    repeatDays.disabled = repeatDays.disabled ? false : true;
+    repeatDays.disabled = !repeatDays.disabled;
 
     this._element.classList.toggle(`card--repeat`);
   }
@@ -82,7 +81,6 @@ class TaskEdit extends Component {
   }
 
   get template() {
-    // console.log(this);
     return `
       <article class="card card--edit card--${this._color} ${this._isRepeated ? `card--repeat` : ``}">
         <form class="card__form" method="get">
@@ -120,10 +118,10 @@ class TaskEdit extends Component {
 
                   <fieldset class="card__date-deadline" ${this._isDate ? `` : `disabled`}>
                     <label class="card__input-deadline-wrap">
-                      <input class="card__date" type="text" placeholder="${moment().format(`Do MMMM`)}" name="date" ${this._isDate ? `value="${this._dayDueDate}"` : ``} />
+                      <input class="card__date" type="text" placeholder="${formatDate([], `D MMMM`)}" name="date" ${this._isDate ? `value="${this._dueDate}"` : ``} />
                     </label>
                     <label class="card__input-deadline-wrap">
-                      <input class="card__time" type="text" placeholder="${moment().format(`h:mm A`)}" name="time" ${this._isDate ? `value="${this._timeDueDate}"` : ``}/>
+                      <input class="card__time" type="text" placeholder="${formatDate([], `h:mm A`)}" name="time" ${this._isDate ? `value="${this._dueDate}"` : ``}/>
                     </label>
                   </fieldset>
 
@@ -202,17 +200,21 @@ class TaskEdit extends Component {
 
   _initFlatpickr() {
     flatpickr(this._element.querySelector(`.card__date`), {
+      defaultDate: this._dueDate,
       altInput: true,
       altFormat: `j F`,
       dateFormat: `Z`
+      // dateFormat: `Y-m-d H:i`
     });
 
     flatpickr(this._element.querySelector(`.card__time`), {
+      defaultDate: this._dueDate,
       enableTime: true,
       noCalendar: true,
       altInput: true,
       altFormat: `h:i K`,
-      dateFormat: `Z`
+      // dateFormat: `Z`
+      dateFormat: `H:i`
     });
   }
 
@@ -246,13 +248,8 @@ class TaskEdit extends Component {
       text: (value) => (target.title = value),
       color: (value) => (target.color = value),
       repeat: (value) => (target.repeatingDays[value] = true),
-      date: (value) => (target.dueDate = value),
-      time: (value) => {
-        // console.log(если указано время - ${value} - заменять duedate`);
-        if (value) {
-          target.dueDate = value;
-        }
-      },
+      date: (value) => (target.dueDate = formatDate(value, `x`)),
+      time: (value) => (target.dueDate = updateTime(target.dueDate, value)),
     };
   }
 
@@ -260,8 +257,9 @@ class TaskEdit extends Component {
     const entry = {
       title: ``,
       color: ``,
+      picture: ``,
       tags: new Set(),
-      dueDate: ``,
+      dueDate: null,
       repeatingDays: {
         'mo': false,
         'tu': false,
@@ -276,21 +274,19 @@ class TaskEdit extends Component {
     const taskEditMapper = TaskEdit.createMapper(entry);
     for (const pair of formData.entries()) {
       const [property, value] = pair;
-      // console.log('[property, value] = ', pair);
       if (taskEditMapper[property] && taskEditMapper[property](value)) {
         taskEditMapper[property](value);
       }
-      // taskEditMapper[property] && taskEditMapper[property](value);
     }
     return entry;
   }
 
-  update(data) {
-    this._title = data.title;
-    this._tags = data.tags;
-    this._color = data.color;
-    this._repeatingDays = data.repeatingDays;
-    this._dueDate = data.dueDate;
+  update({title, tags, color, repeatingDays, dueDate}) {
+    this._title = title;
+    this._tags = tags;
+    this._color = color;
+    this._repeatingDays = repeatingDays;
+    this._dueDate = +dueDate;
   }
 }
 

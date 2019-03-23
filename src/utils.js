@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const parser = new DOMParser();
 
 const getRandomBoolean = () => !!(Math.random() > 0.5);
@@ -9,6 +11,16 @@ const getRandomInt = (min, max) => {
 const isFunction = (value) => {
   return typeof value === `function`;
 };
+
+const formatDate = (date, format) => {
+  return moment(date).format(format);
+};
+
+const updateTime = (date, time) => {
+  const [hours, minutes] = time.split(`:`);
+  return moment(+date).hours(+hours).minutes(+minutes).format(`x`);
+};
+
 
 const getRandomValueFromArray = (array) => {
   return array[getRandomInt(0, array.length)];
@@ -24,4 +36,4 @@ const createElement = (html) => {
   return nodes;
 };
 
-export {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean, createElement, isFunction};
+export {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean, createElement, isFunction, formatDate, updateTime};

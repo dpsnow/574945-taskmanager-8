@@ -35,13 +35,12 @@ const renderTasks = (qty) => {
       editTaskHtml.update(task);
     };
 
-    editTaskHtml.onSubmit = (newObject) => {
-      // console.log('newObject', newObject);
-      task.title = newObject.title;
-      task.tags = newObject.tags;
-      task.color = newObject.color;
-      task.repeatingDays = newObject.repeatingDays;
-      task.dueDate = newObject.dueDate;
+    editTaskHtml.onSubmit = ({title, tags, color, repeatingDays, dueDate}) => {
+      task.title = title;
+      task.tags = tags;
+      task.color = color;
+      task.repeatingDays = repeatingDays;
+      task.dueDate = dueDate;
       taskHtml.update(task);
 
       taskHtml.render();

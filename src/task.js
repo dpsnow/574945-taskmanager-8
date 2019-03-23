@@ -1,6 +1,5 @@
-import {isFunction} from './utils.js';
+import {isFunction, formatDate} from './utils.js';
 import {Component} from './component.js';
-import moment from 'moment';
 
 class Task extends Component {
   constructor(data, uniqueNumber) {
@@ -27,15 +26,15 @@ class Task extends Component {
   }
 
   get _dayDueDate() {
-    return this._dueDate && moment(this._dueDate).format(`D MMMM`);
+    return this._dueDate && formatDate(this._dueDate, `D MMMM`);
   }
 
   get _timeDueDate() {
-    return this._dueDate && moment(this._dueDate).format(`h:mm A`);
+    return this._dueDate && formatDate(this._dueDate, `h:mm A`);
   }
 
   get _isDeadline() {
-    return (this._dueDate && new Date(this._dueDate).getDate() < new Date().getDate()) ? true : false;
+    return (this._dueDate && this._dueDate < Date.now());
   }
 
   set onEdit(fn) {
@@ -59,7 +58,6 @@ class Task extends Component {
   }
 
   get template() {
-    // console.log(this);
     return `
       <article class="card card--${this._color} ${this._isRepeated ? `card--repeat` : ``} ${this._isDeadline ? `card--deadline` : ``}">
         <form class="card__form" method="get">
@@ -93,10 +91,10 @@ class Task extends Component {
                 <div class="card__dates">
                   <fieldset class="card__date-deadline" ${this._isDate ? `` : `disabled`}>
                     <label class="card__input-deadline-wrap">
-                      <input class="card__date" type="text" placeholder="${moment().format(`Do MMMM`)}" name="date" ${this._isDate ? `value="${this._dayDueDate}"` : ``} />
+                      <input class="card__date" type="text" placeholder="${formatDate([], `Do MMMM`)}" name="date" ${this._isDate ? `value="${this._dayDueDate}"` : ``} />
                     </label>
                     <label class="card__input-deadline-wrap">
-                      <input class="card__time" type="text" placeholder="${moment().format(`h:mm A`)}" name="time" ${this._isDate ? `value="${this._timeDueDate}"` : ``}/>
+                      <input class="card__time" type="text" placeholder="${formatDate([], `h:mm A`)}" name="time" ${this._isDate ? `value="${this._timeDueDate}"` : ``}/>
                     </label>
                   </fieldset>
                 </div>
@@ -138,14 +136,12 @@ class Task extends Component {
     this._element.querySelector(`.card__text`).removeEventListener(`change`, this._onChangeTitle);
   }
 
-  update(data) {
-    // console.log('before', this);
-    this._title = data.title;
-    this._tags = data.tags;
-    this._color = data.color;
-    this._repeatingDays = data.repeatingDays;
-    this._dueDate = data.dueDate;
-    // console.log('after', this);
+  update({title, tags, color, repeatingDays, dueDate}) {
+    this._title = title;
+    this._tags = tags;
+    this._color = color;
+    this._repeatingDays = repeatingDays;
+    this._dueDate = +dueDate;
   }
 }
 
