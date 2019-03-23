@@ -1,5 +1,5 @@
 import flatpickr from 'flatpickr';
-import {isFunction, formatDate, updateTime} from '../utils.js';
+import {isFunction, formatDate} from '../utils.js';
 import {Component} from '../component.js';
 import {statuses} from './task-constants.js';
 import {taskTemplate} from './task-edit-template.js';
