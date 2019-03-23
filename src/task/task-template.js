@@ -44,18 +44,18 @@ const taskTemplate = (task) => {
 
             <div class="card__hashtag">
               <div class="card__hashtag-list">
-${Array.from(task._tags).map((hashtag) => {
-return `
-  <span class="card__hashtag-inner">
-    <input type="hidden" name="hashtag" value="${hashtag}" class="card__hashtag-hidden-input" />
-    <button type="button" class="card__hashtag-name">
-      #${hashtag}
-    </button>
-    <button type="button" class="card__hashtag-delete">
-      delete
-    </button>
-  </span>`.trim();
-}).join(``)}
+  ${Array.from(task._tags).map((hashtag) => {
+    return `
+      <span class="card__hashtag-inner">
+        <input type="hidden" name="hashtag" value="${hashtag}" class="card__hashtag-hidden-input" />
+        <button type="button" class="card__hashtag-name">
+          #${hashtag}
+        </button>
+        <button type="button" class="card__hashtag-delete">
+          delete
+        </button>
+      </span>`.trim();
+  }).join(``)}
               </div>
 
             </div>

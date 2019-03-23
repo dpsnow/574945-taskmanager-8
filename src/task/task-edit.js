@@ -23,6 +23,7 @@ class TaskEdit extends Component {
     this._onResetBtnClick = this._onResetBtnClick.bind(this);
     this._onToggleDate = this._onToggleDate.bind(this);
     this._onToggleRepeated = this._onToggleRepeated.bind(this);
+    this._onDeleteHashtag = this._onDeleteHashtag.bind(this);
     this._onChangeColor = this._onChangeColor.bind(this);
   }
 
@@ -74,6 +75,12 @@ class TaskEdit extends Component {
     this._element.classList.add(`card--${this._color}`);
   }
 
+  _onDeleteHashtag(evt) {
+    const tag = evt.target.previousElementSibling.textContent.substring(1);
+    this._tags.delete(tag);
+    evt.target.parentElement.remove();
+  }
+
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
     const formData = new FormData(evt.target);
@@ -115,6 +122,10 @@ class TaskEdit extends Component {
     this._element.querySelector(`.card__date-deadline-toggle`).addEventListener(`click`, this._onToggleDate);
     this._element.querySelector(`.card__repeat-toggle`).addEventListener(`click`, this._onToggleRepeated);
 
+    [...this._element.querySelectorAll(`.card__hashtag-delete`)].forEach((elem) => {
+      elem.addEventListener(`click`, this._onDeleteHashtag);
+    });
+
     [...this._element.querySelectorAll(`.card__color-input`)].forEach((elem) => {
       elem.addEventListener(`change`, this._onChangeColor);
     });
@@ -133,12 +144,16 @@ class TaskEdit extends Component {
 
   static createMapper(target) {
     return {
-      hashtag: (value) => target.tags.add(value),
-      text: (value) => (target.title = value),
-      color: (value) => (target.color = value),
-      repeat: (value) => (target.repeatingDays[value] = true),
-      date: (value) => (target.dueDate = formatDate(value, `x`)),
-      time: (value) => (target.dueDate = updateTime(target.dueDate, value)),
+      'hashtag-input': (value) => {
+        const newTags = value.split(` `);
+        newTags.map((tag) => target.tags.add(tag));
+      },
+      'hashtag': (value) => (target.tags.add(value)),
+      'text': (value) => (target.title = value),
+      'color': (value) => (target.color = value),
+      'repeat': (value) => (target.repeatingDays[value] = true),
+      'date': (value) => (target.dueDate = formatDate(value, `x`)),
+      'time': (value) => (target.dueDate = updateTime(target.dueDate, value)),
     };
   }
 
@@ -162,11 +177,13 @@ class TaskEdit extends Component {
 
     const taskEditMapper = TaskEdit.createMapper(entry);
     for (const pair of formData.entries()) {
+      // console.log('[property, value]', pair);
       const [property, value] = pair;
       if (value && taskEditMapper[property] && taskEditMapper[property](value)) {
         taskEditMapper[property](value);
       }
     }
+    // console.log(`_convertData`, entry);
     return entry;
   }
 

@@ -18,7 +18,7 @@ const formatDate = (date, format) => {
 
 const updateTime = (date, time) => {
   const [hours, minutes] = time.split(`:`);
-  return moment(+date).isValid() ? moment(+date).hours(+hours).minutes(+minutes).format(`x`) : ``;
+  return moment(date).isValid() ? moment(+date).hours(+hours).minutes(+minutes).format(`x`) : ``;
 };
 
 
