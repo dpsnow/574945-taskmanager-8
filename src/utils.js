@@ -13,12 +13,12 @@ const isFunction = (value) => {
 };
 
 const formatDate = (date, format) => {
-  return moment(date).format(format);
+  return moment(date).isValid() ? moment(date).format(format) : ``;
 };
 
 const updateTime = (date, time) => {
   const [hours, minutes] = time.split(`:`);
-  return moment(+date).hours(+hours).minutes(+minutes).format(`x`);
+  return moment(+date).isValid() ? moment(+date).hours(+hours).minutes(+minutes).format(`x`) : ``;
 };
 
 

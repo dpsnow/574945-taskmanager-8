@@ -1,8 +1,8 @@
 import {getFillterHtml} from './template-filter.js';
 import {getRandomInt, createElement} from './utils.js';
 import {listFilters, getTask} from './data.js';
-import {Task} from './task.js';
-import {TaskEdit} from './task-edit.js';
+import {Task} from './task/task.js';
+import {TaskEdit} from './task/task-edit.js';
 
 import '../node_modules/flatpickr/dist/flatpickr.min.css';
 import '../node_modules/flatpickr/dist/themes/material_green.css';
