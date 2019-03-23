@@ -3,6 +3,8 @@ import {isFunction, formatDate, updateTime} from '../utils.js';
 import {Component} from '../component.js';
 import {statuses} from './task-constants.js';
 import {taskTemplate} from './task-edit-template.js';
+import {TaskEntity} from './task-entity.js';
+
 
 class TaskEdit extends Component {
   constructor(data, uniqueNumber) {
@@ -102,6 +104,7 @@ class TaskEdit extends Component {
       altInput: true,
       altFormat: `j F`,
       dateFormat: `Z`
+      // dateFormat: `U`
     });
 
     flatpickr(this._element.querySelector(`.card__time`), {
@@ -142,49 +145,24 @@ class TaskEdit extends Component {
     });
   }
 
-  static createMapper(target) {
-    return {
-      'hashtag-input': (value) => {
-        const newTags = value.split(` `);
-        newTags.map((tag) => target.tags.add(tag));
-      },
-      'hashtag': (value) => (target.tags.add(value)),
-      'text': (value) => (target.title = value),
-      'color': (value) => (target.color = value),
-      'repeat': (value) => (target.repeatingDays[value] = true),
-      'date': (value) => (target.dueDate = formatDate(value, `x`)),
-      'time': (value) => (target.dueDate = updateTime(target.dueDate, value)),
-    };
-  }
-
   _convertData(formData) {
-    const entry = {
-      title: ``,
-      color: ``,
-      picture: ``,
-      tags: new Set(),
-      dueDate: null,
-      repeatingDays: {
-        'mo': false,
-        'tu': false,
-        'we': false,
-        'th': false,
-        'fr': false,
-        'sa': false,
-        'su': false,
-      }
-    };
+    const newDate = {};
 
-    const taskEditMapper = TaskEdit.createMapper(entry);
     for (const pair of formData.entries()) {
-      // console.log('[property, value]', pair);
       const [property, value] = pair;
-      if (value && taskEditMapper[property] && taskEditMapper[property](value)) {
-        taskEditMapper[property](value);
+      // console.log('[property, value] = ', pair);
+      if (!value) {
+        continue;
+      }
+      // console.log(`newDate[_${property}_] = ${value}`);
+      if (newDate[property]) {
+        newDate[property] += ` ${value}`;
+      } else {
+        newDate[property] = value;
       }
     }
-    // console.log(`_convertData`, entry);
-    return entry;
+    // console.log(`newDate`, newDate);
+    return new TaskEntity(newDate);
   }
 
   update({title, tags, color, repeatingDays, dueDate}) {
