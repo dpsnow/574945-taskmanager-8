@@ -5,7 +5,7 @@ class TaskEntity {
     this.title = data.text || ``;
     this.color = data.color || ``;
     this.picture = data.picture || ``;
-    this.dueDate = data.date && formatDate(data.date, `x`);
+    this.dueDate = updateTime(this.dueDate || formatDate([], `x`), data.time);
     this.tags = new Set();
 
     this.repeatingDays = {
@@ -32,12 +32,6 @@ class TaskEntity {
       data.repeat.split(` `).forEach((day) => {
         this.repeatingDays[day] = true;
       });
-    }
-
-    if (data.time) {
-      // console.log(`data.time = ${data.time}; dueDate= ${this.dueDate}`);
-      this.dueDate = this.dueDate || formatDate([], `x`);
-      this.dueDate = updateTime(this.dueDate, data.time);
     }
 
   }

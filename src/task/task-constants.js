@@ -1,4 +1,4 @@
-export const statuses = {
+export const Statuses = {
   YES: `yes`,
   NO: `no`
 };

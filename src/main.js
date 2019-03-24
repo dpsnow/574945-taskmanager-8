@@ -20,35 +20,30 @@ const renderTasks = (qty) => {
 
   tasks.forEach((task) => {
     ++countCards;
-    const taskHtml = new Task(task, countCards);
-    const editTaskHtml = new TaskEdit(task, countCards);
+    const taskComponent = new Task(task, countCards);
+    const editTaskComponent = new TaskEdit(task, countCards);
 
-    taskHtml.onEdit = () => {
-      editTaskHtml.render();
-      containerForCards.replaceChild(editTaskHtml.element, taskHtml.element);
-      taskHtml.unrender();
+    taskComponent.onEdit = () => {
+      editTaskComponent.render();
+      containerForCards.replaceChild(editTaskComponent.element, taskComponent.element);
+      taskComponent.unrender();
     };
 
-    taskHtml.onChangeTitle = (evt) => {
+    taskComponent.onChangeTitle = (evt) => {
       task.title = evt.target.value;
-      taskHtml.update(task);
-      editTaskHtml.update(task);
+      taskComponent.update(task);
+      editTaskComponent.update(task);
     };
 
-    editTaskHtml.onSubmit = ({title, tags, color, repeatingDays, dueDate}) => {
-      task.title = title;
-      task.tags = tags;
-      task.color = color;
-      task.repeatingDays = repeatingDays;
-      task.dueDate = dueDate;
-      taskHtml.update(task);
+    editTaskComponent.onSubmit = (updateDate) => {
+      taskComponent.update(updateDate);
 
-      taskHtml.render();
-      containerForCards.replaceChild(taskHtml.element, editTaskHtml.element);
-      editTaskHtml.unrender();
+      taskComponent.render();
+      containerForCards.replaceChild(taskComponent.element, editTaskComponent.element);
+      editTaskComponent.unrender();
     };
 
-    fragment.appendChild(taskHtml.render());
+    fragment.appendChild(taskComponent.render());
   });
   containerForCards.appendChild(fragment);
 };

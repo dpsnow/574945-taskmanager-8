@@ -1,7 +1,7 @@
 import flatpickr from 'flatpickr';
 import {isFunction, formatDate} from '../utils.js';
 import {Component} from '../component.js';
-import {statuses} from './task-constants.js';
+import {Statuses} from './task-constants.js';
 import {taskTemplate} from './task-edit-template.js';
 import {TaskEntity} from './task-entity.js';
 
@@ -57,7 +57,7 @@ class TaskEdit extends Component {
     const deadlineStatus = this._element.querySelector(`.card__date-status`);
     const dateDeadline = this._element.querySelector(`.card__date-deadline`);
     this._isDate = !this._isDate;
-    deadlineStatus.textContent = this._isDate ? statuses.YES : statuses.NO;
+    deadlineStatus.textContent = this._isDate ? Statuses.YES : Statuses.NO;
     dateDeadline.disabled = !dateDeadline.disabled;
   }
 
@@ -65,7 +65,7 @@ class TaskEdit extends Component {
     const repeatStatus = this._element.querySelector(`.card__repeat-status`);
     const repeatDays = this._element.querySelector(`.card__repeat-days`);
     this._isRepeated = !this._isRepeated;
-    repeatStatus.textContent = this._isRepeated ? statuses.YES : statuses.NO;
+    repeatStatus.textContent = this._isRepeated ? Statuses.YES : Statuses.NO;
     repeatDays.disabled = !repeatDays.disabled;
 
     this._element.classList.toggle(`card--repeat`);
