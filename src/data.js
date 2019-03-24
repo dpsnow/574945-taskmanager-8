@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {getRandomInt, getRandomValueFromArray, getRandomArray, getRandomBoolean} from './utils.js';
 
 const listFilters = [
@@ -17,9 +18,9 @@ const dataForTask = () => ({
     `Пройти интенсив на соточку`
   ]),
 
-  dueDate: getRandomBoolean() ? (Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000) : null,
+  dueDate: getRandomBoolean() ? moment().add(getRandomInt(0, 7), `days`).add(getRandomInt(0, 24), `hours`).format(`x`) : ``,
 
-  tags: new Set(getRandomArray([
+  tags: getRandomArray([
     `homework`,
     `theory`,
     `practice`,
@@ -27,7 +28,7 @@ const dataForTask = () => ({
     `keks`,
     `js2`,
     `hard`,
-    `i❤frontend`], 4)),
+    `i❤frontend`], 4),
 
   color: getRandomValueFromArray([
     `black`,

@@ -4,7 +4,7 @@ const makeHashtags = (task) => {
   return Array.from(task._tags).map((hashtag) => {
     return `
     <span class="card__hashtag-inner">
-      <input type="hidden" name="hashtag" value="${hashtag}" class="card__hashtag-hidden-input" />
+      <input type="hidden" name="tags" value="${hashtag}" class="card__hashtag-hidden-input" />
       <button type="button" class="card__hashtag-name">#${hashtag}</button>
       <button type="button" class="card__hashtag-delete">delete</button>
     </span>`;
@@ -39,7 +39,7 @@ const taskTemplate = (task) => {
 
           <div class="card__textarea-wrap">
             <label>
-              <textarea class="card__text" placeholder="Start typing your text here..." name="text">${task._title}</textarea>
+              <textarea class="card__text" placeholder="Start typing your text here..." name="title">${task._title}</textarea>
             </label>
           </div>
 
@@ -75,7 +75,7 @@ const taskTemplate = (task) => {
                 ${makeHashtags(task)}
                 </div>
                 <label>
-                  <input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here" />
+                  <input type="text" class="card__hashtag-input" name="newTags" placeholder="Type new hashtag here" />
                 </label>
               </div>
             </div>

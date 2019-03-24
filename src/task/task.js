@@ -79,7 +79,7 @@ class Task extends Component {
     this._tags = tags;
     this._color = color;
     this._repeatingDays = repeatingDays;
-    this._dueDate = +dueDate;
+    this._dueDate = dueDate;
     this._isDate = isDate;
     this._isRepeated = isRepeated;
   }

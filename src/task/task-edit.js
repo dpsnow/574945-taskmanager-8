@@ -106,8 +106,8 @@ class TaskEdit extends Component {
       defaultDate: this._dueDate,
       altInput: true,
       altFormat: `j F`,
-      dateFormat: `Z`
-      // dateFormat: `U`
+      // dateFormat: `Z`
+      dateFormat: `U`
     });
 
     flatpickr(this._element.querySelector(`.card__time`), {
@@ -149,7 +149,7 @@ class TaskEdit extends Component {
   }
 
   _convertData(formData) {
-    const newDate = {};
+    const newData = {};
 
     for (const pair of formData.entries()) {
       const [property, value] = pair;
@@ -157,15 +157,16 @@ class TaskEdit extends Component {
       if (!value) {
         continue;
       }
-      // console.log(`newDate[_${property}_] = ${value}`);
-      if (newDate[property]) {
-        newDate[property] += ` ${value}`;
+      // console.log(`newData[_${property}_] = ${value}`);
+
+      if (newData[property]) {
+        newData[property] = [].concat(newData[property]).concat(value);
       } else {
-        newDate[property] = value;
+        newData[property] = value;
       }
+
     }
-    // console.log(`newDate`, newDate);
-    return new TaskEntity(newDate);
+    return new TaskEntity(newData);
   }
 
   update({title, tags, color, repeatingDays, dueDate, isDate, isRepeated}) {

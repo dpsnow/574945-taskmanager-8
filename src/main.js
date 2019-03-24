@@ -21,18 +21,6 @@ const renderTasks = (qty) => {
 
   const tasks = new Array(qty).fill(``).map(() => new TaskEntity(dataForTask()));
 
-
-  // const tasks = new Array(qty).fill(``).map(() => {
-  //   const a = dataForTask();
-  //   // console.log('В TaskEntity вoшло - ', a);
-  //   const b = new TaskEntity(a);
-  //   // console.log('Из TaskEntity вышло - ', b);
-  //   return b;
-  // });
-
-
-  // console.log(`tasks=`, tasks);
-
   tasks.forEach((task) => {
     ++countCards;
     const taskComponent = new Task(task, countCards);

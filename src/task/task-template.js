@@ -35,7 +35,7 @@ const taskTemplate = (task) => {
             <div class="card__dates">
               <fieldset class="card__date-deadline" ${task._isDate ? `` : `disabled`}>
                 <label class="card__input-deadline-wrap">
-                  <input class="card__date" type="text" placeholder="${formatDate([], `Do MMMM`)}" name="date" ${task._isDate ? `value="${task._dayDueDate}"` : ``} />
+                  <input class="card__date" type="text" placeholder="${formatDate([], `D MMMM`)}" name="date" ${task._isDate ? `value="${task._dayDueDate}"` : ``} />
                 </label>
                 <label class="card__input-deadline-wrap">
                   <input class="card__time" type="text" placeholder="${formatDate([], `h:mm A`)}" name="time" ${task._isDate ? `value="${task._timeDueDate}"` : ``}/>
