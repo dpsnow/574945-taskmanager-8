@@ -18,8 +18,11 @@ class TaskEdit extends Component {
     this._repeatingDays = data.repeatingDays;
     this._isFavorite = data.isFavorite;
 
-    this._isDate = !!this._dueDate;
-    this._isRepeated = Object.values(this._repeatingDays).includes(true);
+    this._isDate = data.isDate;
+    this._isRepeated = data.isRepeated;
+
+    // this._isDate = !!this._dueDate;
+    // this._isRepeated = Object.values(this._repeatingDays).includes(true);
 
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
     this._onResetBtnClick = this._onResetBtnClick.bind(this);
@@ -33,13 +36,13 @@ class TaskEdit extends Component {
     return taskTemplate(this);
   }
 
-  get _checkIsRepeated() {
-    return Object.values(this._repeatingDays).includes(true);
-  }
+  // get _checkIsRepeated() {
+  //   return Object.values(this._repeatingDays).includes(true);
+  // }
 
-  get _checkIsDate() {
-    return !!this._dueDate;
-  }
+  // get _checkIsDate() {
+  //   return !!this._dueDate;
+  // }
 
   get _dayDueDate() {
     return this._dueDate && formatDate(this._dueDate, `D MMMM`);
@@ -165,14 +168,14 @@ class TaskEdit extends Component {
     return new TaskEntity(newDate);
   }
 
-  update({title, tags, color, repeatingDays, dueDate}) {
+  update({title, tags, color, repeatingDays, dueDate, isDate, isRepeated}) {
     this._title = title;
     this._tags = tags;
     this._color = color;
     this._repeatingDays = repeatingDays;
     this._dueDate = +dueDate;
-    this._isDate = this._checkIsDate;
-    this._isRepeated = this._checkIsRepeated;
+    this._isDate = isDate;
+    this._isRepeated = isRepeated;
   }
 }
 

@@ -1,6 +1,7 @@
 import {getFillterHtml} from './template-filter.js';
 import {getRandomInt, createElement} from './utils.js';
-import {listFilters, getTask} from './data.js';
+import {listFilters, dataForTask} from './data.js';
+import {TaskEntity} from './task/task-entity.js';
 import {Task} from './task/task.js';
 import {TaskEdit} from './task/task-edit.js';
 
@@ -16,7 +17,21 @@ let countCards = getRandomInt(0, 1500);
 const renderTasks = (qty) => {
   containerForCards.innerHTML = ``;
   const fragment = document.createDocumentFragment();
-  const tasks = new Array(qty).fill(``).map(getTask);
+  // const tasks = new Array(qty).fill(``).map(getTask);
+
+  const tasks = new Array(qty).fill(``).map(() => new TaskEntity(dataForTask()));
+
+
+  // const tasks = new Array(qty).fill(``).map(() => {
+  //   const a = dataForTask();
+  //   // console.log('В TaskEntity вoшло - ', a);
+  //   const b = new TaskEntity(a);
+  //   // console.log('Из TaskEntity вышло - ', b);
+  //   return b;
+  // });
+
+
+  // console.log(`tasks=`, tasks);
 
   tasks.forEach((task) => {
     ++countCards;

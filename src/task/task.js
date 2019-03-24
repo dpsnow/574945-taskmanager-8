@@ -14,6 +14,9 @@ class Task extends Component {
     this._repeatingDays = data.repeatingDays;
     this._isFavorite = data.isFavorite;
 
+    this._isDate = data.isDate;
+    this._isRepeated = data.isRepeated;
+
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
     this._onChangeTitle = this._onChangeTitle.bind(this);
   }
@@ -21,13 +24,13 @@ class Task extends Component {
     return taskTemplate(this);
   }
 
-  get _isRepeated() {
-    return Object.values(this._repeatingDays).includes(true);
-  }
+  // get _isRepeated() {
+  //   return Object.values(this._repeatingDays).includes(true);
+  // }
 
-  get _isDate() {
-    return !!this._dueDate;
-  }
+  // get _isDate() {
+  //   return !!this._dueDate;
+  // }
 
   get _dayDueDate() {
     return this._dueDate && formatDate(this._dueDate, `D MMMM`);
@@ -71,12 +74,14 @@ class Task extends Component {
     this._element.querySelector(`.card__text`).removeEventListener(`change`, this._onChangeTitle);
   }
 
-  update({title, tags, color, repeatingDays, dueDate}) {
+  update({title, tags, color, repeatingDays, dueDate, isDate, isRepeated}) {
     this._title = title;
     this._tags = tags;
     this._color = color;
     this._repeatingDays = repeatingDays;
     this._dueDate = +dueDate;
+    this._isDate = isDate;
+    this._isRepeated = isRepeated;
   }
 }
 

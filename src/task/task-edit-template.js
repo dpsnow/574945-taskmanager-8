@@ -20,6 +20,7 @@ const makeRepeatingDays = (task) => {
 };
 
 const taskTemplate = (task) => {
+  // console.log(`render TaskEdit`, task);
   return `
     <article class="card card--edit card--${task._color} ${task._isRepeated ? `card--repeat` : ``}">
       <form class="card__form" method="get">

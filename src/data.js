@@ -10,7 +10,7 @@ const listFilters = [
   {id: `archive`, count: getRandomInt(0, 255)},
 ];
 
-const getTask = () => ({
+const dataForTask = () => ({
   title: getRandomValueFromArray([
     `Изучить теорию`,
     `Сделать домашку`,
@@ -53,4 +53,4 @@ const getTask = () => ({
   isDone: getRandomBoolean(),
 });
 
-export {listFilters, getTask};
+export {listFilters, dataForTask};

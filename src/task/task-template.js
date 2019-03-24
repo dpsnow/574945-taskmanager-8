@@ -1,6 +1,7 @@
 import {formatDate} from '../utils.js';
 
 const taskTemplate = (task) => {
+  // console.log(`render Task`, task);
   return `
   <article class="card card--${task._color} ${task._isRepeated ? `card--repeat` : ``} ${task._isDeadline ? `card--deadline` : ``}">
     <form class="card__form" method="get">

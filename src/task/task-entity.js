@@ -2,13 +2,13 @@ import {formatDate, updateTime} from '../utils.js';
 
 class TaskEntity {
   constructor(data) {
-    this.title = data.text || ``;
+    // console.log(data);
+    this.title = data.title || data.text || ``;
     this.color = data.color || ``;
     this.picture = data.picture || ``;
-    this.dueDate = updateTime(this.dueDate || formatDate([], `x`), data.time);
-    this.tags = new Set();
-
-    this.repeatingDays = {
+    this.dueDate = data.dueDate || (data.date || data.time) && updateTime(formatDate(data.date || [], `x`), data.time);
+    this.tags = data.tags || new Set();
+    this.repeatingDays = data.repeatingDays || {
       'mo': false,
       'tu': false,
       'we': false,
@@ -33,7 +33,14 @@ class TaskEntity {
         this.repeatingDays[day] = true;
       });
     }
+  }
 
+  get isRepeated() {
+    return Object.values(this.repeatingDays).includes(true);
+  }
+
+  get isDate() {
+    return Boolean(this.dueDate);
   }
 }
 
